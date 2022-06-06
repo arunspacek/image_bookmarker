@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+	<h1>Dashboard</h1>
+
+	{% with total_images_created=request.user.images_created.count %}
+	<p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
+	<p>Drag the following button to your bookmarks toolbar to bookmark images from other websites -> <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">Bookmark it</a></p>
+	{% endwith %}
+
+	<p>You can also <a href="{% url 'edit' %}">edit your profile.</a> or <a href="{% url 'password_change' %}">change your password</a>.</p>
+	<hr>
+	{% if user.profile %}
+	<div style="display: flex; justify-content: center; align-items: center; padding: 2em; border: 5px solid black;">
+		<img style="max-width: 100%; max-height: auto; border: 7px solid red;" src="\media\{{ user.profile.photo }}" alt="myprofilepicture" title="profile pic">
+	</div>
+	{% endif %}
+	<p style="padding: 2em 2em; justify-content: center; border: 30px solid gray; display: flex; font-family: sans-serif; font-size: 50px;">Hello there!</p>
+
+	<h2>What's happening</h2>
+	<div id="action-list">
+		{% for action in actions %}
+			{% include "actions/action/detail.html" %}
+		{% endfor %}
+	</div>
+{% endblock %}
